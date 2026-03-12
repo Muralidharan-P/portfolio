@@ -227,7 +227,9 @@ transition: transform 1.1s cubic-bezier(.445,.05,.55,.95);
 .about-intro.active span{
 transform:translateY(0);
 }
-
+.skills-section.active span{
+transform:translateY(0);
+}
 
 /* SUBTEXT */
 
@@ -523,7 +525,13 @@ grid-template-columns:1fr 1fr;
 gap:20px;
 
 padding:40px;
+height: 100vh;
 
+}
+.work-item {
+    
+    width: 20vw;
+    height: 25vh;
 }
 
 .work-img{
@@ -583,4 +591,73 @@ transition:all .8s ease;
 top:120%;
 left:120%;
 
+}
+
+.skills-section{
+height:100vh;
+background:#071021;
+overflow:hidden;
+position:relative;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:flex-start;
+padding-top:120px;
+}
+
+.skills-title{
+font-size:64px;
+font-weight:700;
+
+color:white;
+margin-bottom:60px;
+letter-spacing:2px;
+
+text-shadow:0 10px 30px rgba(0,0,0,0.6);
+}
+
+.skills-world{
+position:relative;
+width:100%;
+height:70%;
+}
+
+/* skill pills */
+
+.skill-pill{
+position:absolute;
+padding:14px 28px;
+border-radius:50px;
+background:linear-gradient(135deg,#6d28d9,#9333ea);
+color:white;
+font-weight:600;
+cursor:grab;
+user-select:none;
+white-space:nowrap;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+font-family:'Poppins', sans-serif;
+}
+
+.skill-pill:nth-child(1){background:#7c3aed;}   /* purple */
+.skill-pill:nth-child(2){background:#06b6d4;}   /* cyan */
+.skill-pill:nth-child(3){background:#f97316;}   /* orange */
+.skill-pill:nth-child(4){background:#22c55e;}   /* green */
+.skill-pill:nth-child(5){background:#e11d48;}   /* red */
+.skill-pill:nth-child(6){background:#3b82f6;}   /* blue */
+.skill-pill:nth-child(7){background:#9333ea;}   /* violet */
+.skill-pill:nth-child(8){background:#f59e0b;}   /* amber */
+.skill-pill:nth-child(9){background:#14b8a6;}   /* teal */
+.skill-pill:nth-child(10){background:#ef4444;} 
+.skill-pill:nth-child(11){background:#06b6d4;} 
+.skill-pill:nth-child(12){background:#f97316;} 
+.skill-pill:nth-child(13){background:#22c55e;} 
+.skill-pill:nth-child(14){background:#e11d48;} 
+.skill-pill:nth-child(15){background:#3b82f6;} 
+.skill-pill:nth-child(16){background:#9333ea;} 
+.skill-pill:nth-child(17){background:#f59e0b;} 
+.skill-pill:nth-child(18){background:#14b8a6;}  /* coral */
+
+.skill-pill:hover{
+filter:brightness(1.15);
+box-shadow:0 0 15px rgba(255,255,255,0.3);
 }

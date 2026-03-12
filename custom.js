@@ -54,6 +54,22 @@ aboutIntro.classList.add("active");
 
 });
 
+const skillIntro = document.querySelector(".skills-section");
+
+window.addEventListener("scroll", () => {
+
+const triggerPoint = window.innerHeight * 0.85;
+
+const sectionTop = skillIntro.getBoundingClientRect().top;
+
+if(sectionTop < triggerPoint){
+
+skillIntro.classList.add("active");
+
+}
+
+});
+
 
 
 /* smooth scrolling */
@@ -271,3 +287,80 @@ scrub:true
 });
 
 });
+
+const { Engine, Runner, Bodies, Composite } = Matter;
+
+const engine = Engine.create();
+const world = engine.world;
+
+const section = document.querySelector(".skills-world");
+const width = section.offsetWidth;
+const height = section.offsetHeight;
+
+const pills = document.querySelectorAll(".skill-pill");
+
+const bodies = [];
+
+/* create physics bodies */
+
+pills.forEach((pill,i)=>{
+
+const rect = pill.getBoundingClientRect();
+
+const body = Bodies.rectangle(
+Math.random()*width,
+-100,
+rect.width,
+rect.height,
+{
+restitution:0.6,
+friction:0.2
+}
+);
+
+bodies.push({body,pill});
+
+Composite.add(world,body);
+
+});
+
+/* boundaries */
+
+const floor = Bodies.rectangle(width/2,height+40,width,80,{isStatic:true});
+const leftWall = Bodies.rectangle(-40,height/2,80,height,{isStatic:true});
+const rightWall = Bodies.rectangle(width+40,height/2,80,height,{isStatic:true});
+
+Composite.add(world,[floor,leftWall,rightWall]);
+
+Runner.run(Runner.create(), engine);
+
+/* update HTML positions */
+
+(function update(){
+
+bodies.forEach(item=>{
+
+const {body,pill}=item;
+
+pill.style.left = body.position.x - pill.offsetWidth/2 + "px";
+pill.style.top = body.position.y - pill.offsetHeight/2 + "px";
+pill.style.transform = `rotate(${body.angle}rad)`;
+
+});
+
+requestAnimationFrame(update);
+
+})();
+const { Mouse, MouseConstraint } = Matter;
+
+const mouse = Mouse.create(section);
+
+const mouseConstraint = MouseConstraint.create(engine, {
+  mouse: mouse,
+  constraint: {
+    stiffness: 0.2,
+    render: { visible: false }
+  }
+});
+
+Composite.add(world, mouseConstraint);
