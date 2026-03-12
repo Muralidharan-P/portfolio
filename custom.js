@@ -148,7 +148,7 @@ onComplete:()=> img.remove()
 
 /* ================= HERO PARALLAX ================= */
 
-const heroImage = document.querySelector(".hero-image");
+const heroImage = document.querySelector(".hero-lottie");
 
 window.addEventListener("scroll", () => {
 
