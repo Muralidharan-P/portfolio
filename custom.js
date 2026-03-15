@@ -272,7 +272,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 document.querySelectorAll(".work-item").forEach((item,i)=>{
 
-const img = item.querySelector("img");
+const img = item.querySelector(".parallax");
 
 gsap.to(img,{
 y:80,
@@ -288,12 +288,14 @@ scrub:true
 
 });
 
-const { Engine, Runner, Bodies, Composite } = Matter;
+function startSkillsPhysics(){
+
+const { Engine, Runner, Bodies, Composite, Mouse, MouseConstraint } = Matter;
 
 const engine = Engine.create();
 const world = engine.world;
 
-const section = document.querySelector(".skills-world");
+const section = document.querySelector(".skills-section");
 const width = section.offsetWidth;
 const height = section.offsetHeight;
 
@@ -303,7 +305,7 @@ const bodies = [];
 
 /* create physics bodies */
 
-pills.forEach((pill,i)=>{
+pills.forEach((pill)=>{
 
 const rect = pill.getBoundingClientRect();
 
@@ -351,16 +353,68 @@ pill.style.transform = `rotate(${body.angle}rad)`;
 requestAnimationFrame(update);
 
 })();
-const { Mouse, MouseConstraint } = Matter;
+
+/* mouse drag */
 
 const mouse = Mouse.create(section);
 
-const mouseConstraint = MouseConstraint.create(engine, {
-  mouse: mouse,
-  constraint: {
-    stiffness: 0.2,
-    render: { visible: false }
-  }
+const mouseConstraint = MouseConstraint.create(engine,{
+mouse:mouse,
+constraint:{
+stiffness:0.2,
+render:{visible:false}
+}
 });
 
-Composite.add(world, mouseConstraint);
+Composite.add(world,mouseConstraint);
+
+}
+
+/* trigger when section gets active */
+
+const skillsSection = document.querySelector(".skills-section");
+
+let started = false;
+
+const observer = new MutationObserver(()=>{
+
+if(skillsSection.classList.contains("active") && !started){
+
+startSkillsPhysics();
+started = true;
+
+}
+
+});
+
+observer.observe(skillsSection,{
+attributes:true,
+attributeFilter:["class"]
+});
+
+
+
+const socialBar = document.getElementById("socialSticky");
+const skills = document.querySelector(".skills-section");
+
+window.addEventListener("scroll", function(){
+
+/* show after 200px scroll */
+
+if(window.scrollY >= 200){
+socialBar.classList.add("show");
+}else{
+socialBar.classList.remove("show");
+}
+
+/* hide when skills section enters viewport */
+
+const rect = skills.getBoundingClientRect();
+
+if(rect.top < window.innerHeight && rect.bottom > 0){
+socialBar.classList.add("hide");
+}else{
+socialBar.classList.remove("hide");
+}
+
+});
