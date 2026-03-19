@@ -418,3 +418,149 @@ socialBar.classList.remove("hide");
 }
 
 });
+
+
+const section = document.querySelector(".exp-section");
+const items = document.querySelectorAll(".exp-item");
+const progress = document.getElementById("expProgress");
+
+window.addEventListener("scroll", () => {
+  const rect = section.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+
+  // Calculate scroll progress inside section (0 → 1)
+  let progressValue = (windowHeight - rect.top) / (section.offsetHeight + windowHeight);
+  progressValue = Math.max(0, Math.min(1, progressValue));
+
+  // Apply progress line height
+  progress.style.height = progressValue * 80 + "%";
+
+  // Trigger items based on progress
+  items.forEach((item, index) => {
+    const triggerPoint = (index + 1) / items.length;
+
+    const dot = item.querySelector(".exp-dot");
+    const card = item.querySelector(".exp-card");
+
+    if (progressValue >= triggerPoint - 0.1) {
+      dot.classList.add("active");
+      card.classList.add("show");
+    } else {
+      dot.classList.remove("active");
+      card.classList.remove("show");
+    }
+  });
+});
+
+
+// ================= DATA =================
+const services = [
+  {text:"Webflow & WordPress",img:"https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070"},
+  {text:"Creative Interactive Development",img:"https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=2070"},
+  {text:"Scroll-Based Animation",img:"https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=2070"},
+  {text:"UI/UX Frontend",img:"https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2070"},
+  {text:"Performance Optimization",img:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070"}
+];
+
+const textEl = document.getElementById("serviceText");
+const lines = document.querySelectorAll(".line span");
+
+// ================= THREE =================
+const canvas = document.getElementById("canvas");
+const renderer = new THREE.WebGLRenderer({canvas});
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+const scene = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+
+const size = 512;
+const data = new Float32Array(size * size * 3);
+
+const dispTexture = new THREE.DataTexture(data, size, size, THREE.RGBFormat, THREE.FloatType);
+dispTexture.needsUpdate = true;
+
+const loader = new THREE.TextureLoader();
+
+let material = new THREE.ShaderMaterial({
+  uniforms:{
+    uTexture:{value:loader.load(services[0].img)},
+    uNextTexture:{value:null},
+    uProgress:{value:0},
+    uDisp:{value:dispTexture}
+  },
+  vertexShader:`
+    varying vec2 vUv;
+    void main(){
+      vUv = uv;
+      gl_Position = vec4(position,1.0);
+    }
+  `,
+  fragmentShader:`
+    uniform sampler2D uTexture;
+    uniform sampler2D uNextTexture;
+    uniform sampler2D uDisp;
+    uniform float uProgress;
+    varying vec2 vUv;
+
+    void main(){
+      vec4 disp = texture2D(uDisp, vUv);
+      vec2 uv = vUv + (disp.rg * 0.05);
+
+      vec4 tex1 = texture2D(uTexture, uv);
+      vec4 tex2 = texture2D(uNextTexture, uv);
+
+      gl_FragColor = mix(tex1, tex2, uProgress);
+    }
+  `
+});
+
+const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2,2), material);
+scene.add(mesh);
+
+// ================= SLIDER =================
+let index = 0;
+let duration = 4000;
+
+function showSlide(i){
+
+  textEl.classList.remove("show");
+
+  setTimeout(()=>{
+    textEl.innerText = services[i].text;
+    textEl.classList.add("show");
+  },200);
+
+  loader.load(services[i].img, tex=>{
+    material.uniforms.uNextTexture.value = tex;
+
+    let progress = 0;
+    let interval = setInterval(()=>{
+      progress += 0.05;
+      material.uniforms.uProgress.value = progress;
+
+      if(progress >= 1){
+        material.uniforms.uTexture.value = tex;
+        material.uniforms.uProgress.value = 0;
+        clearInterval(interval);
+      }
+    },30);
+  });
+
+  lines.forEach(l=>{
+    l.style.transition="none";
+    l.style.width="0%";
+  });
+
+  let line = lines[i];
+  line.style.transition=`width ${duration}ms linear`;
+  setTimeout(()=> line.style.width="100%",50);
+}
+
+setInterval(()=>{
+  index = (index+1)%services.length;
+  showSlide(index);
+}, duration);
+
+showSlide(index);
+textEl.classList.add("show");
+
