@@ -3,269 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experience Timeline</title>
 
-<title>Services Section</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+
 body{
   margin:0;
-  overflow:hidden;
-  background:#000;
+  background:#0b0b0b;
   font-family:'Inter',sans-serif;
-}
-
-/* TITLE */
-.services-title{
-  position:absolute;
-  top:40px;
-  left:50%;
-  transform:translateX(-50%);
-  color:#aaa;
-  font-size:14px;
-  letter-spacing:3px;
-  z-index:10;
-}
-
-/* TEXT */
-.service-text{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) translateY(30px);
   color:#fff;
-  font-family:'Playfair Display',serif;
-  font-size:60px;
+}
+
+.exp-section{
+  padding:120px 20px;
+}
+
+.exp-title{
   text-align:center;
-  z-index:10;
+  font-size:36px;
+  margin-bottom:80px;
+}
+
+/* TIMELINE */
+.timeline{
+  position:relative;
+  max-width:900px;
+  margin:auto;
+}
+
+/* CENTER LINE */
+.timeline::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  width:2px;
+  height:100%;
+  background:rgba(255,255,255,0.15);
+  transform:translateX(-50%);
+}
+
+/* ITEM */
+.exp-item{
+  position:relative;
+  width:50%;
+  padding:40px 30px;
 
   opacity:0;
+  transform:translateY(60px);
   transition:all 0.8s ease;
 }
 
-.service-text.show{
-  opacity:1;
-  transform:translate(-50%,-50%) translateY(0);
-}
-
-/* PAGINATION */
-.pagination{
-  position:absolute;
-  bottom:50px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:20px;
-  z-index:10;
-}
-
-.line{
-  width:80px;
-  height:2px;
-  background:rgba(255,255,255,0.2);
-}
-
-.line span{
-  display:block;
-  width:0%;
-  height:100%;
-  background:#fff;
-}
-
-/* CANVAS */
-canvas{
-  position:absolute;
-  top:0;
+/* LEFT */
+.exp-item:nth-child(odd){
   left:0;
+  text-align:right;
 }
+
+/* RIGHT */
+.exp-item:nth-child(even){
+  left:50%;
+}
+
+/* DOT (FIXED PERFECT CENTER) */
+.exp-dot{
+  position:absolute;
+  top:50px;
+  left:100%;
+  width:16px;
+  height:16px;
+  background:#fff;
+  border-radius:50%;
+  transform:translate(-50%, -50%);
+  z-index:3;
+}
+
+.exp-item:nth-child(even) .exp-dot{
+  left:0;
+  transform:translate(-50%, -50%);
+}
+
+/* CARD */
+.exp-card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  backdrop-filter:blur(10px);
+  padding:25px;
+  border-radius:14px;
+  transition:0.4s;
+}
+
+/* TEXT */
+.exp-card span{color:#aaa;font-size:13px;}
+.exp-card h3{margin:10px 0;font-size:20px;}
+.exp-card h4{color:#888;font-size:15px;}
+.exp-card p{color:#ccc;font-size:14px;line-height:1.6;}
+
+/* SHOW */
+.exp-item.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* HOVER */
+.exp-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 10px 30px rgba(255,255,255,0.05);
+}
+
+/* ================= MOBILE FIX ================= */
+@media(max-width:768px){
+
+  .timeline::before{
+    left:20px;
+  }
+
+  .exp-item{
+    width:100%;
+    left:0 !important;
+    padding-left:60px;
+    text-align:left !important;
+  }
+
+  .exp-dot{
+    left:20px !important;
+    transform:translate(-50%, -50%);
+  }
+
+}
+
 </style>
 </head>
 <body>
 
-<h2 class="services-title">My Services</h2>
-<div class="service-text" id="serviceText"></div>
+<section class="exp-section">
 
-<div class="pagination">
-  <div class="line"><span></span></div>
-  <div class="line"><span></span></div>
-  <div class="line"><span></span></div>
-  <div class="line"><span></span></div>
-  <div class="line"><span></span></div>
-</div>
+  <h2 class="exp-title">Experience</h2>
 
-<canvas id="canvas"></canvas>
+  <div class="timeline">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div class="exp-card">
+        <span>July 2023 - October 2024</span>
+        <h3>Junior WordPress Developer</h3>
+        <h4>Wepapp Virtuous Studio</h4>
+        <p>Worked on US-based client projects, building and customizing WordPress websites.</p>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div class="exp-card">
+        <span>October 2024 - August 2025</span>
+        <h3>WordPress Developer</h3>
+        <h4>Wings UI/UX Design Studio</h4>
+        <p>Developed interactive and visually engaging websites with strong UI/UX collaboration.</p>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div class="exp-card">
+        <span>August 2025 - Present</span>
+        <h3>Web Developer</h3>
+        <h4>Spinta Digital</h4>
+        <p>Building interactive WordPress websites and Shopify solutions.</p>
+      </div>
+    </div>
+
+  </div>
+
+</section>
 
 <script>
 
-// ================= DATA =================
-const services = [
-  {text:"Webflow & WordPress",img:"https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070"},
-  {text:"Creative Interactive Development",img:"https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=2070"},
-  {text:"Scroll-Based Animation",img:"https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=2070"},
-  {text:"UI/UX Frontend",img:"https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2070"},
-  {text:"Performance Optimization",img:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070"}
-];
+// entrance animation
+const items = document.querySelectorAll(".exp-item");
 
-const textEl = document.getElementById("serviceText");
-const lines = document.querySelectorAll(".line span");
-
-// ================= THREE =================
-const canvas = document.getElementById("canvas");
-const renderer = new THREE.WebGLRenderer({canvas});
-renderer.setSize(window.innerWidth, window.innerHeight);
-
-const scene = new THREE.Scene();
-const camera = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
-
-const size = 512;
-const data = new Float32Array(size * size * 3);
-
-const dispTexture = new THREE.DataTexture(data, size, size, THREE.RGBFormat, THREE.FloatType);
-dispTexture.needsUpdate = true;
-
-const loader = new THREE.TextureLoader();
-
-let material = new THREE.ShaderMaterial({
-  uniforms:{
-    uTexture:{value:loader.load(services[0].img)},
-    uNextTexture:{value:null},
-    uProgress:{value:0},
-    uDisp:{value:dispTexture}
-  },
-  vertexShader:`
-    varying vec2 vUv;
-    void main(){
-      vUv = uv;
-      gl_Position = vec4(position,1.0);
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("show");
     }
-  `,
-  fragmentShader:`
-    uniform sampler2D uTexture;
-    uniform sampler2D uNextTexture;
-    uniform sampler2D uDisp;
-    uniform float uProgress;
-    varying vec2 vUv;
-
-    void main(){
-      vec4 disp = texture2D(uDisp, vUv);
-      vec2 uv = vUv + (disp.rg * 0.05);
-
-      vec4 tex1 = texture2D(uTexture, uv);
-      vec4 tex2 = texture2D(uNextTexture, uv);
-
-      gl_FragColor = mix(tex1, tex2, uProgress);
-    }
-  `
-});
-
-const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2,2), material);
-scene.add(mesh);
-
-// ================= SLIDER =================
-let index = 0;
-let duration = 4000;
-
-function showSlide(i){
-
-  textEl.classList.remove("show");
-
-  setTimeout(()=>{
-    textEl.innerText = services[i].text;
-    textEl.classList.add("show");
-  },200);
-
-  loader.load(services[i].img, tex=>{
-    material.uniforms.uNextTexture.value = tex;
-
-    let progress = 0;
-    let interval = setInterval(()=>{
-      progress += 0.05;
-      material.uniforms.uProgress.value = progress;
-
-      if(progress >= 1){
-        material.uniforms.uTexture.value = tex;
-        material.uniforms.uProgress.value = 0;
-        clearInterval(interval);
-      }
-    },30);
   });
+},{threshold:0.2});
 
-  lines.forEach(l=>{
-    l.style.transition="none";
-    l.style.width="0%";
-  });
-
-  let line = lines[i];
-  line.style.transition=`width ${duration}ms linear`;
-  setTimeout(()=> line.style.width="100%",50);
-}
-
-setInterval(()=>{
-  index = (index+1)%services.length;
-  showSlide(index);
-}, duration);
-
-showSlide(index);
-textEl.classList.add("show");
-
-// ================= WATER =================
-let mouse = new THREE.Vector2(0.5,0.5);
-
-window.addEventListener("mousemove",(e)=>{
-  mouse.x = e.clientX / window.innerWidth;
-  mouse.y = 1 - (e.clientY / window.innerHeight);
-});
-
-function animate(){
-
-  // fade
-  for(let i=0;i<data.length;i++){
-    data[i] *= 0.94;
-  }
-
-  const x = Math.floor(mouse.x * size);
-  const y = Math.floor(mouse.y * size);
-
-  const radius = 20;
-
-  for(let i=-radius;i<radius;i++){
-    for(let j=-radius;j<radius;j++){
-
-      let dx=i, dy=j;
-      let dist=Math.sqrt(dx*dx+dy*dy);
-
-      if(dist<radius){
-
-        let index = ((y+j)*size + (x+i))*3;
-
-        if(index>0 && index<data.length){
-
-          let power = (1 - dist/radius);
-          let noise = (Math.random()-0.5)*0.3;
-          let force = power*0.8 + noise;
-
-          data[index]+=force;
-          data[index+1]+=force;
-        }
-      }
-    }
-  }
-
-  dispTexture.needsUpdate = true;
-
-  renderer.render(scene,camera);
-  requestAnimationFrame(animate);
-}
-
-animate();
-
-// resize
-window.addEventListener("resize",()=>{
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
+items.forEach(item=>observer.observe(item));
 
 </script>
 
